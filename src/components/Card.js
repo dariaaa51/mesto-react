@@ -3,11 +3,10 @@ function Card({ card, onCardClick }) {
     onCardClick(card);
   }
   return (
-    // <template id="element-template" className="cards-template">
     <li className="element">
       <img
         src={card.link}
-        alt="Picture"
+        alt={card.name}
         className="element__picture"
         onClick={handleClick}
       />
@@ -22,7 +21,6 @@ function Card({ card, onCardClick }) {
         <p className="element__count">{card.likes.length}</p>
       </div>
     </li>
-    // </template>
   );
 }
 

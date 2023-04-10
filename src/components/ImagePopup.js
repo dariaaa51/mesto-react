@@ -1,23 +1,23 @@
-function ImagePopup(props) {
+function ImagePopup({ card, onClose }) {
   return (
     <div
       className={`popup popup__image-box ${
-        props.card.name ? "popup_opened" : ""
+        card.name ? "popup_opened" : ""
       }`}
     >
       <figure className="popup__figure">
-        <button
+      <button
           className="popup__close-button"
           type="button"
-          onClick={props.onClose}
+          onClick={onClose}
         ></button>
         <img
           className="popup__image"
-          src={props.card.link}
-          alt={props.card.name}
+          src={card.link}
+          alt={card.name}
         />
         <figcaption className="popup__image-caption">
-          {props.card.name}
+          {card.name}
         </figcaption>
       </figure>
     </div>

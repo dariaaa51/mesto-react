@@ -38,7 +38,7 @@ function App() {
 
   return (
     <>
-      <body className="page">
+      <div className="page">
         <Header />
         <Main
           onEditProfile={handleEditProfileClick}
@@ -54,6 +54,7 @@ function App() {
           title="Редактировать профиль"
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          buttonText='Сохранить'
         >
           <input
             id="popupNameInput"
@@ -87,6 +88,7 @@ function App() {
           title="Новое место"
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+          buttonText='Создать'
         >
           <input
             id="popupDesignationInput"
@@ -124,6 +126,7 @@ function App() {
           title="Обновить аватар"
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
+          buttonText='Сохранить'
         >
           <input
             className="popup__text"
@@ -140,9 +143,9 @@ function App() {
           ></span>
         </PopupWithForm>
 
-        <PopupWithForm name="delete" title="Вы уверены?" />
+        <PopupWithForm name="delete" title="Вы уверены?" buttonText='Сохранить' />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-      </body>
+      </div>
     </>
   );
 }

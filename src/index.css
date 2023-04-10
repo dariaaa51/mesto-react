@@ -1,6 +1,6 @@
 @import url(./vendor/normalize.css);
 
-@import url(./fonts/fonts.css);
+@import url(./vendor/fonts/fonts.css);
 
 @import url(./blocks/page/page.css);
 
@@ -55,7 +55,5 @@
 
 @import url(./blocks/profile/__avatar-edit/profile__avatar-edit.css);
 @import url(./blocks/profile/__avatar-area/profile__avatar-area.css);
-
-
 
 
