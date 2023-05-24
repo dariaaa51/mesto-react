@@ -22,7 +22,7 @@ class Api {
   }
 
   // Метод получения данных пользователя с сервера
-  getUserInfoApi() {
+  getUserInfo() {
     return fetch(`${this._link}/users/me`, {
       headers: this._getHeaders(),
     }).then(this._getResponseData);
@@ -84,7 +84,7 @@ class Api {
   }
 
   // Метод отправки данных о новом аватаре на сервер
-  setAvatar(data) {
+  setUserAvatar(data) {
     return fetch(`${this._link}/users/me/avatar`, {
       headers: this._getHeaders(),
       method: "PATCH",
@@ -98,4 +98,4 @@ const api = new Api(
   "b0832912-0612-451f-a255-c3171e888069"
 );
 
-export { api };
+export default api;
