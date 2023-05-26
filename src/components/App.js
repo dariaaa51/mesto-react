@@ -9,6 +9,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import { useEffect } from "react";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfile] = React.useState(false);
@@ -19,17 +20,21 @@ function App() {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getUserInfo()
+    api
+      .getUserInfo()
       .then((user) => {
         setCurrentUser(user);
       })
       .catch((err) => {
-        console.log(`Возникла ошибка с получением данных пользователя с сервера - ${err}`);
+        console.log(
+          `Возникла ошибка с получением данных пользователя с сервера - ${err}`
+        );
       });
   }, []);
 
   React.useEffect(() => {
-    api.getCardsApi()
+    api
+      .getCardsApi()
       .then((cards) => {
         setCards(cards);
       })
@@ -37,6 +42,26 @@ function App() {
         console.log(`Возникла ошибка при загрузке карточек - ${err}`);
       });
   }, []);
+
+  const isOpen =
+    isEditAvatarPopupOpen ||
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    selectedCard.link;
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("keydown", closeByEscape);
+      return () => {
+        document.removeEventListener("keydown", closeByEscape);
+      };
+    }
+  }, [isOpen]);
 
   function handleEditProfileClick() {
     setEditProfile(true);
@@ -62,24 +87,30 @@ function App() {
   }
 
   function handleUpdateUser(items) {
-    api.sendUserInfoApi(items)
+    api
+      .sendUserInfoApi(items)
       .then((user) => {
         setCurrentUser(user);
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(`Возникла ошибка с отправкой данных пользователя на сервер - ${err}`);
+        console.log(
+          `Возникла ошибка с отправкой данных пользователя на сервер - ${err}`
+        );
       });
   }
 
   function handleUpdateAvatar(item) {
-    api.setUserAvatar(item)
+    api
+      .setUserAvatar(item)
       .then((user) => {
         setCurrentUser(user);
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(`Возникла ошибка с отправкой данных о новом аватаре на сервер - ${err}`);
+        console.log(
+          `Возникла ошибка с отправкой данных о новом аватаре на сервер - ${err}`
+        );
       });
   }
 
@@ -87,7 +118,8 @@ function App() {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
 
     if (!isLiked) {
-      api.putLike(card._id)
+      api
+        .putLike(card._id)
         .then((newCard) => {
           const newCards = cards.map((item) =>
             item._id === card._id ? newCard : item
@@ -98,7 +130,8 @@ function App() {
           console.log(`Возникла ошибка с отправкой лайка на сервер - ${err}`);
         });
     } else {
-      api.deleteLike(card._id)
+      api
+        .deleteLike(card._id)
         .then((newCard) => {
           const newCards = cards.map((item) =>
             item._id === card._id ? newCard : item
@@ -112,20 +145,27 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      const newCards = cards.filter((item) => item._id !== card._id);
-      setCards(newCards);
-    });
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((cards) => cards.filter((item) => item._id !== card._id));
+      })
+      .catch((err) => {
+        console.log(`Возникла ошибка с удалением карточки с сервера - ${err}`);
+      });
   }
 
   function handleAddPlaceSubmit(items) {
-    api.addNewCard(items)
+    api
+      .addNewCard(items)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(`Возникла ошибка с добавлением новой карточки на сервер - ${err}`);
+        console.log(
+          `Возникла ошибка с добавлением новой карточки на сервер - ${err}`
+        );
       });
   }
 

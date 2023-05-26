@@ -45,7 +45,7 @@ function EditFrofilePopup(props) {
         placeholder="Введите имя"
         minLength="2"
         maxLength="40"
-        value={name}
+        value={name || ''}
         onChange={handleChangeName}
         required
       />
@@ -58,7 +58,7 @@ function EditFrofilePopup(props) {
         placeholder="О себе"
         minLength="2"
         maxLength="200"
-        value={description}
+        value={description || ''}
         onChange={handleChangeAbout}
         required
       />
